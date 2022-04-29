@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 
 public class UserDao {
-    private static final String QUERY_SQL ="select uuid,uname from user where deleted=0 order by created_at desc";
-    public ArrayList<UserBean> getInstanceInfo(){
+    private static final String QUERY_SQL ="select uuid,uname from user where deleted=0 order by created_at ";
+    public ArrayList<UserBean> getUserInfo(){
         ArrayList<UserBean> userBeans = null;
         Connection connection = ManageDruidConn.getConn();
         PreparedStatement preparedStatement = null;
@@ -41,6 +41,6 @@ public class UserDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(new UserDao().getInstanceInfo());
+        System.out.println(new UserDao().getUserInfo());
     }
 }

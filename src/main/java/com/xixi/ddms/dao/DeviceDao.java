@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class DeviceDao {
     private static final String QUERY_SQL ="select device_id,fixing,scrapped,used,uuid,dt_name from device inner join device_type on device.dt_id=device_type.dt_id";
-    public ArrayList<DeviceBean> getInstanceInfo(){
+    public ArrayList<DeviceBean> getDeviceInfo(){
         ArrayList<DeviceBean> deviceBeans = null;
         Connection connection = ManageDruidConn.getConn();
         PreparedStatement preparedStatement = null;
@@ -46,6 +46,6 @@ public class DeviceDao {
     }
 
     public static void main(String[] args) {
-        System.out.println(new DeviceDao().getInstanceInfo());
+        System.out.println(new DeviceDao().getDeviceInfo());
     }
 }
