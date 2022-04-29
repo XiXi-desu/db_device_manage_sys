@@ -37,7 +37,7 @@ public class DeviceDao {
                 deviceBeans.add(deviceBean);
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
         finally {
             ManageDruidConn.closeConn(rs,null,preparedStatement,null,connection);
