@@ -7,6 +7,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -83,12 +86,12 @@ public class UserManager {
         frame.setVisible(true);
 
         jbSearch.addActionListener(e -> {
-            updateTable();
-            //defaultTableModel.setDataVector(new UserService().searchUserData(TFSearch.getText()),index);
+            this.data = new UserService().searchUserData(TFSearch.getText());
+            defaultTableModel.setDataVector(data,index);
         });
         jbReset.addActionListener(e -> {
-            updateTable();
-//            defaultTableModel.setDataVector(new UserService().getUserData(),index);
+            this.data = new UserService().getUserData();
+            defaultTableModel.setDataVector(data,index);
             TFSearch.setText("");
         });
         jbAdd.addActionListener(e -> {
@@ -99,9 +102,16 @@ public class UserManager {
             addDialog.setVisible(true);
         });
         jbRemove.addActionListener(e -> {
-            Integer key = new BigInteger(data.get(table.getSelectedRow()).get(0)).intValue();
-            new UserDao().removeUser(key);
-            updateTable();
+            System.out.println(Arrays.toString(table.getSelectedRows()));
+            List<int[]> list = Collections.singletonList(table.getSelectedRows());
+            for (int i = 0; i < list.size(); i++) {
+                Integer key = new BigInteger(data.get(table.getSelectedRows()[i]).get(0)).intValue();
+                new UserDao().removeUser(key);
+            }
+//            Integer key = new BigInteger(data.get(table.getSelectedRow()).get(0)).intValue();
+//            new UserDao().removeUser(key);
+            this.data = new UserService().searchUserData(TFSearch.getText());
+            defaultTableModel.setDataVector(data,index);
         });
     }
 
