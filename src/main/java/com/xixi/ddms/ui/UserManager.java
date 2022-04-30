@@ -1,10 +1,13 @@
 package com.xixi.ddms.ui;
 
+import com.xixi.ddms.dao.UserDao;
 import com.xixi.ddms.service.UserService;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Vector;
 
 /**
@@ -20,13 +23,17 @@ public class UserManager {
     JButton jbAdd, jbRemove, jbEdit, jbSearch, jbReset;//各个按钮
     JTextField TFSearch;//查找框
 
+    Vector<String> index = new Vector<>();
+
+    Vector<Vector<String>> data;
+
     DefaultTableModel defaultTableModel;
 
+
     public UserManager(){
-        Vector<String> index = new Vector<>();
         index.addElement("id");
         index.addElement("name");
-        Vector<Vector<String>> data = new UserService().getUserData();
+        data = new UserService().getUserData();
         Font titleFont = new Font("苹方",Font.BOLD,24);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//获取当前屏幕长宽工具
         //窗口长宽设定
@@ -83,13 +90,63 @@ public class UserManager {
             defaultTableModel.setDataVector(new UserService().getUserData(),index);
             TFSearch.setText("");
         });
+        jbAdd.addActionListener(e -> {
+            JDialog addDialog = new AddDialog(frame);
+            addDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+            addDialog.setSize(SwingX/3,SwingY/4);
+            addDialog.setLocation(screenSize.width/2-SwingX/6,screenSize.height/2-SwingY/8);
+            addDialog.setVisible(true);
+        });
     }
 
+    class AddDialog extends JDialog{//添加時的彈窗設計
+//        AddDialog(JFrame frame){
+//            super(frame);
+//        }
+//        AddDialog(JFrame frame,String title){
+//            super(frame,title);
+//        }
+        AddDialog(JFrame frame){
+            super(frame,"添加用戶",true);
+            contentPane = new JPanel(new GridLayout(2,1));
+            tfName = new JTextField(20);
+            addButton = new JButton("添加");
+            cancelButton = new JButton("取消");
+            jpBody = new JPanel();
+            jpFoot = new JPanel();
+            jpBody.add(tfName);
+            jpFoot.add(addButton);
+            jpFoot.add(cancelButton);
+            contentPane.add(jpBody);
+            contentPane.add(jpFoot);
+            this.add(contentPane);
+            AddDialog that = this;
+            addButton.addActionListener(e -> {
+                UserDao userDao = new UserDao();
+                userDao.addUser(tfName.getText());
+                that.setVisible(false);
+            });
+            cancelButton.addActionListener(e -> {
+                that.setVisible(false);
+            });
+        }
+        JPanel contentPane;
+        JTextField tfName;
+        JButton addButton, cancelButton;
+        JPanel jpBody,jpFoot;
+
+
+
+    }
     public void setTable(Vector<Vector<String>> data, Vector<String> index)
     {
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         defaultTableModel.setDataVector(data, index);
         this.table.setModel(defaultTableModel);
+    }
+
+    public void refresh(){
+        this.defaultTableModel.setDataVector(new UserService().getUserData(),index);
     }
 
     public static void main(String[] args) {

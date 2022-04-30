@@ -64,6 +64,21 @@ public class UserDao {
         }
         return userBeans;
     }
+    public void addUser(String name){
+        Connection connection = DruidConn.getConn();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement =  connection.prepareStatement("insert into device_manage_db.user(uname) values (?)");
+            preparedStatement.setString(1, name);
+            preparedStatement.execute();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DruidConn.closeConn(null,null,preparedStatement,null,connection);
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println(new UserDao().getUserInfo("xixi"));
