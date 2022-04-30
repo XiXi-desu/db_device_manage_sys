@@ -6,6 +6,7 @@ import com.xixi.ddms.service.UserService;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.math.BigInteger;
 import java.util.Vector;
 
 /**
@@ -94,6 +95,11 @@ public class UserManager {
             addDialog.setSize(SwingX/3,SwingY/4);
             addDialog.setLocation(screenSize.width/2-SwingX/6,screenSize.height/2-SwingY/8);
             addDialog.setVisible(true);
+        });
+        jbRemove.addActionListener(e -> {
+            Integer key = new BigInteger(data.get(table.getSelectedRow()).get(0)).intValue();
+            new UserDao().removeUser(key);
+            defaultTableModel.setDataVector(new UserService().getUserData(),index);
         });
     }
 

@@ -79,6 +79,21 @@ public class UserDao {
             DruidConn.closeConn(null,null,preparedStatement,null,connection);
         }
     }
+    public void removeUser(Integer key){
+        Connection connection = DruidConn.getConn();
+        PreparedStatement preparedStatement = null;
+
+        try {
+            preparedStatement = connection.prepareStatement("delete from device_manage_db.user where uuid=?");
+            preparedStatement.setInt(1, key);
+            preparedStatement.execute();
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }finally {
+            DruidConn.closeConn(null,null,preparedStatement,null,connection);
+        }
+    }
 
     public static void main(String[] args) {
         System.out.println(new UserDao().getUserInfo("xixi"));

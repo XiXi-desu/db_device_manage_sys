@@ -24,7 +24,7 @@ public class UserService {
         }
         return userVector;
     }
-    public Vector searchUserData(String key){
+    public Vector<Vector<String>> searchUserData(String key){
         UserDao userDao = new UserDao();
         ArrayList<UserBean> users = userDao.getUserInfo(key);
         Vector<Vector<String>> userVector = new Vector<>();
@@ -36,4 +36,5 @@ public class UserService {
         }
         return userVector;
     }
+
 }
