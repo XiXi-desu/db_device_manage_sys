@@ -27,4 +27,17 @@ public class UserService {
         }
         return userVector;
     }
+    public Vector searchUserData(String key){
+        UserDao userDao = new UserDao();
+        ArrayList<UserBean> users = userDao.getUserInfo(key);
+        Vector userVector = new Vector<>();
+        for (int i = 0 ; i < users.size() ; i++){
+            UserBean user = users.get(i);
+            Vector row = new Vector();
+            row.addElement(user.getUId());
+            row.addElement(user.getUName());
+            userVector.addElement(row);
+        }
+        return userVector;
+    }
 }

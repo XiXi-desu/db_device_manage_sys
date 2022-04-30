@@ -5,7 +5,6 @@ import com.xixi.ddms.service.UserService;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.sql.ResultSetMetaData;
 import java.util.Vector;
 
 /**
@@ -13,33 +12,39 @@ import java.util.Vector;
  * @description: com.xixi.ddms.utils
  * @date:2022/4/29
  */
-public class Manager {
+public class UserManager {
     JFrame frame;
-    JPanel pHead,pBody,pFoot,contentPane;
+    JPanel pHead,pBody1,pBody2,pFoot,contentPane;
     JLabel lTitle;
     JTable table;
-    JButton jbAdd,jbRemove,jbEdit,jbSearch;
-    JTextArea TASearch;
+    JButton jbAdd, jbRemove, jbEdit, jbSearch, jbReset;
+    JTextField TFSearch;
 
     DefaultTableModel defaultTableModel;
 
-    public Manager(Vector data, Vector index){
+    public UserManager(){
+        Vector index = new Vector();
+        index.addElement("id");
+        index.addElement("name");
+        Vector data = new UserService().getUserData();
         Font titleFont = new Font("苹方",Font.BOLD,24);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//获取当前屏幕长宽工具
         //窗口长宽设定
-        int SwingX = (int)(screenSize.width*0.6);
-        int SwingY = (int)(screenSize.height*0.6);
+        int SwingX = (int)(screenSize.width*0.5);
+        int SwingY = (int)(screenSize.height*0.5);
         frame = new JFrame("办公设备管理系统");
         contentPane = new JPanel();
         pHead = new JPanel();
-        pBody = new JPanel();
+        pBody1 = new JPanel();
+        pBody2 = new JPanel();
         pFoot = new JPanel();
-        lTitle = new JLabel("Neko的办公设备管理系统");
+        lTitle = new JLabel("Neko的用户管理系统");
         jbAdd = new JButton("ADD");
         jbRemove = new JButton("REMOVE");
         jbEdit = new JButton("EDIT");
         jbSearch = new JButton("Search");
-        TASearch = new JTextArea();
+        jbReset = new JButton("Reset");
+        TFSearch = new JTextField(20);
         DefaultTableModel defaultTableModel = new DefaultTableModel(){
             public boolean isCellEditable(int rowIndex, int ColIndex) {
                 return false;
@@ -50,21 +55,34 @@ public class Manager {
         JScrollPane s = new JScrollPane(table);
         lTitle.setFont(titleFont);
         pHead.add(lTitle);
-        pBody.add(s);
+        pBody1.add(TFSearch);
+        pBody1.add(jbSearch);
+        pBody1.add(jbReset);
+        pBody2.add(s);
         pFoot.add(jbAdd);
         pFoot.add(jbRemove);
         pFoot.add(jbEdit);
         pHead.setBounds(0,0,SwingX,(int)(0.05*SwingY));
-        pBody.setBounds(0,(int)(0.1*SwingY),SwingX,(int)(0.8*SwingY));
+        pBody1.setBounds(0,(int)(0.05*SwingY),SwingX,(int)(0.05*SwingY));
+        pBody2.setBounds(0,(int)(0.1*SwingY),SwingX,(int)(0.8*SwingY));
         pFoot.setBounds(0,(int)(0.9*SwingY),SwingX,(int)(0.1*SwingY));
         contentPane.setLayout(null);
         contentPane.add(pHead);
-        contentPane.add(pBody);
+        contentPane.add(pBody1);
+        contentPane.add(pBody2);
         contentPane.add(pFoot);
         frame.setContentPane(contentPane);
         frame.setBounds(screenSize.width/2-SwingX/2,screenSize.height/2-SwingY/2,SwingX,SwingY);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
+
+        jbSearch.addActionListener(e -> {
+            defaultTableModel.setDataVector(new UserService().searchUserData(TFSearch.getText()),index);
+        });
+        jbReset.addActionListener(e -> {
+            defaultTableModel.setDataVector(new UserService().getUserData(),index);
+            TFSearch.setText("");
+        });
     }
 
     public void setTable(Vector data, Vector index)
@@ -75,9 +93,6 @@ public class Manager {
     }
 
     public static void main(String[] args) {
-        Vector index = new Vector();
-        index.addElement("id");
-        index.addElement("name");
-        Manager manager = new Manager(new UserService().getUserData(),index);
+        UserManager userManager = new UserManager();
     }
 }

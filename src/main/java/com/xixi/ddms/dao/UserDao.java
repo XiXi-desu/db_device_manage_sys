@@ -17,8 +17,9 @@ import java.util.ArrayList;
  */
 
 public class UserDao {
-    private static final String QUERY_SQL ="select uuid,uname from user where deleted=0 order by created_at ";
+
     public ArrayList<UserBean> getUserInfo(){
+        String QUERY_SQL ="select uuid,uname from user where deleted=0 order by created_at ";
         ArrayList<UserBean> userBeans = null;
         Connection connection = ManageDruidConn.getConn();
         PreparedStatement preparedStatement = null;
@@ -39,8 +40,32 @@ public class UserDao {
         }
         return userBeans;
     }
+    public ArrayList<UserBean> getUserInfo(String key){
+        String QUERY_SQL ="select uuid,uname from user where deleted=0 and (uuid LIKE ? or uname LIKE ?) order by created_at ";
+        ArrayList<UserBean> userBeans = null;
+        Connection connection = ManageDruidConn.getConn();
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+        try {
+            preparedStatement = connection.prepareStatement(QUERY_SQL);
+            preparedStatement.setString(1,'%'+key+'%');
+            preparedStatement.setString(2,'%'+key+'%');
+            rs = preparedStatement.executeQuery();
+            userBeans = new ArrayList<>();
+            while (rs.next()){
+                UserBean userBean = new UserBean(rs.getInt("uuid"),rs.getString("uname"));
+                userBeans.add(userBean);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            ManageDruidConn.closeConn(rs,null,preparedStatement,null,connection);
+        }
+        return userBeans;
+    }
 
     public static void main(String[] args) {
-        System.out.println(new UserDao().getUserInfo());
+        System.out.println(new UserDao().getUserInfo("xixi"));
     }
 }
