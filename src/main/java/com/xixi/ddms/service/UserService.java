@@ -14,14 +14,13 @@ import java.util.Vector;
  * @date:2022/4/29
  */
 public class UserService {
-    public Vector getUserData(){
+    public Vector<Vector<String>> getUserData(){
         UserDao userDao = new UserDao();
         ArrayList<UserBean> users = userDao.getUserInfo();
-        Vector userVector = new Vector<>();
-        for (int i = 0 ; i < users.size() ; i++){
-            UserBean user = users.get(i);
-            Vector row = new Vector();
-            row.addElement(user.getUId());
+        Vector<Vector<String>> userVector = new Vector<>();
+        for (UserBean user : users) {
+            Vector<String> row = new Vector<>();
+            row.addElement(user.getUId().toString());
             row.addElement(user.getUName());
             userVector.addElement(row);
         }
@@ -30,11 +29,10 @@ public class UserService {
     public Vector searchUserData(String key){
         UserDao userDao = new UserDao();
         ArrayList<UserBean> users = userDao.getUserInfo(key);
-        Vector userVector = new Vector<>();
-        for (int i = 0 ; i < users.size() ; i++){
-            UserBean user = users.get(i);
-            Vector row = new Vector();
-            row.addElement(user.getUId());
+        Vector<Vector<String>> userVector = new Vector<>();
+        for (UserBean user : users) {
+            Vector<String> row = new Vector<>();
+            row.addElement(user.getUId().toString());
             row.addElement(user.getUName());
             userVector.addElement(row);
         }

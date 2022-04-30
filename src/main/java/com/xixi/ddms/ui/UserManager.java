@@ -23,10 +23,10 @@ public class UserManager {
     DefaultTableModel defaultTableModel;
 
     public UserManager(){
-        Vector index = new Vector();
+        Vector<String> index = new Vector<>();
         index.addElement("id");
         index.addElement("name");
-        Vector data = new UserService().getUserData();
+        Vector<Vector<String>> data = new UserService().getUserData();
         Font titleFont = new Font("苹方",Font.BOLD,24);
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();//获取当前屏幕长宽工具
         //窗口长宽设定
