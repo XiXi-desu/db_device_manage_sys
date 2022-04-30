@@ -2,7 +2,7 @@ package com.xixi.ddms.dao;
 
 
 import com.xixi.ddms.modal.UserBean;
-import com.xixi.ddms.pool.ManageDruidConn;
+import com.xixi.ddms.pool.DruidConn;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,17 +11,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * @author: create by zhengyuxi
- * @description: com.xixi.ddms.dao
- * @date:2022/4/28
+ * &#064;author:  create by zhengyuxi
+ * &#064;description:  com.xixi.ddms.dao
+ * &#064;date:2022/4/28
  */
 
 public class UserDao {
 
     public ArrayList<UserBean> getUserInfo(){
         String QUERY_SQL ="select uuid,uname from user where deleted=0 order by created_at ";
-        ArrayList<UserBean> userBeans = null;
-        Connection connection = ManageDruidConn.getConn();
+        ArrayList<UserBean> userBeans;
+        Connection connection = DruidConn.getConn();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
@@ -36,14 +36,14 @@ public class UserDao {
             throw new RuntimeException(e);
         }
         finally {
-            ManageDruidConn.closeConn(rs,null,preparedStatement,null,connection);
+            DruidConn.closeConn(rs,null,preparedStatement,null,connection);
         }
         return userBeans;
     }
     public ArrayList<UserBean> getUserInfo(String key){
         String QUERY_SQL ="select uuid,uname from user where deleted=0 and (uuid LIKE ? or uname LIKE ?) order by created_at ";
-        ArrayList<UserBean> userBeans = null;
-        Connection connection = ManageDruidConn.getConn();
+        ArrayList<UserBean> userBeans;
+        Connection connection = DruidConn.getConn();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
@@ -60,7 +60,7 @@ public class UserDao {
             throw new RuntimeException(e);
         }
         finally {
-            ManageDruidConn.closeConn(rs,null,preparedStatement,null,connection);
+            DruidConn.closeConn(rs,null,preparedStatement,null,connection);
         }
         return userBeans;
     }

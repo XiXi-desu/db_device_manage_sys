@@ -2,7 +2,7 @@ package com.xixi.ddms.dao;
 
 
 import com.xixi.ddms.modal.DeviceBean;
-import com.xixi.ddms.pool.ManageDruidConn;
+import com.xixi.ddms.pool.DruidConn;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -11,16 +11,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
- * @author: create by zhengyuxi
- * @description: com.xixi.ddms.dao
- * @date:2022/4/28
+ * &#064;author:  create by zhengyuxi
+ * &#064;description:  com.xixi.ddms.dao
+ * &#064;date:2022/4/28
  */
 
 public class DeviceDao {
     private static final String QUERY_SQL ="select device_id,fixing,scrapped,used,uuid,dt_name from device inner join device_type on device.dt_id=device_type.dt_id";
     public ArrayList<DeviceBean> getDeviceInfo(){
         ArrayList<DeviceBean> deviceBeans = null;
-        Connection connection = ManageDruidConn.getConn();
+        Connection connection = DruidConn.getConn();
         PreparedStatement preparedStatement = null;
         ResultSet rs = null;
         try {
@@ -40,7 +40,7 @@ public class DeviceDao {
             e.printStackTrace();
         }
         finally {
-            ManageDruidConn.closeConn(rs,null,preparedStatement,null,connection);
+            DruidConn.closeConn(rs,null,preparedStatement,null,connection);
         }
         return deviceBeans;
     }

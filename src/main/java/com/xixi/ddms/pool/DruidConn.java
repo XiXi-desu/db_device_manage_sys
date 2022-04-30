@@ -5,11 +5,11 @@ import com.alibaba.druid.pool.DruidDataSource;
 import java.sql.*;
 
 /**
- * @author: create by zhengyuxi
- * @description: com.xixi.ddms.pool
- * @date:2022/4/28
+ * &#064;author:  create by zhengyuxi
+ * &#064;description:  com.xixi.ddms.pool
+ * &#064;date:2022/4/28
  */
-public class ManageDruidConn {
+public class DruidConn {
     // 定义MySQL数据库连接信息
     private final static String driverName = "com.mysql.cj.jdbc.Driver";
     //测试数据库
