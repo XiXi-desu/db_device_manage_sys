@@ -83,10 +83,12 @@ public class UserManager {
         frame.setVisible(true);
 
         jbSearch.addActionListener(e -> {
-            defaultTableModel.setDataVector(new UserService().searchUserData(TFSearch.getText()),index);
+            updateTable();
+            //defaultTableModel.setDataVector(new UserService().searchUserData(TFSearch.getText()),index);
         });
         jbReset.addActionListener(e -> {
-            defaultTableModel.setDataVector(new UserService().getUserData(),index);
+            updateTable();
+//            defaultTableModel.setDataVector(new UserService().getUserData(),index);
             TFSearch.setText("");
         });
         jbAdd.addActionListener(e -> {
@@ -99,7 +101,7 @@ public class UserManager {
         jbRemove.addActionListener(e -> {
             Integer key = new BigInteger(data.get(table.getSelectedRow()).get(0)).intValue();
             new UserDao().removeUser(key);
-            defaultTableModel.setDataVector(new UserService().getUserData(),index);
+            updateTable();
         });
     }
 
@@ -129,6 +131,7 @@ public class UserManager {
                 UserDao userDao = new UserDao();
                 userDao.addUser(tfName.getText());
                 that.setVisible(false);
+                updateTable();
             });
             cancelButton.addActionListener(e -> {
                 that.setVisible(false);
@@ -142,9 +145,9 @@ public class UserManager {
 
 
     }
-    public void setTable(Vector<Vector<String>> data, Vector<String> index)
+    public void updateTable()
     {
-        DefaultTableModel defaultTableModel = new DefaultTableModel();
+        data = new UserService().getUserData();
         defaultTableModel.setDataVector(data, index);
         this.table.setModel(defaultTableModel);
     }

@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class UserDao {
 
     public ArrayList<UserBean> getUserInfo(){
-        String QUERY_SQL ="select uuid,uname from user where deleted=0 order by created_at ";
+        String QUERY_SQL ="select uuid,uname from user where deleted=0 order by uuid ";
         ArrayList<UserBean> userBeans;
         Connection connection = DruidConn.getConn();
         PreparedStatement preparedStatement = null;
@@ -41,7 +41,7 @@ public class UserDao {
         return userBeans;
     }
     public ArrayList<UserBean> getUserInfo(String key){
-        String QUERY_SQL ="select uuid,uname from user where deleted=0 and (uuid LIKE ? or uname LIKE ?) order by created_at ";
+        String QUERY_SQL ="select uuid,uname from user where deleted=0 and (uuid LIKE ? or uname LIKE ?) order by uuid ";
         ArrayList<UserBean> userBeans;
         Connection connection = DruidConn.getConn();
         PreparedStatement preparedStatement = null;
@@ -84,8 +84,9 @@ public class UserDao {
         PreparedStatement preparedStatement = null;
 
         try {
-            preparedStatement = connection.prepareStatement("delete from device_manage_db.user where uuid=?");
+            preparedStatement = connection.prepareStatement("update device_manage_db.user set deleted=1 where uuid=?");
             preparedStatement.setInt(1, key);
+            System.out.println(preparedStatement.toString());
             preparedStatement.execute();
 
         }catch (SQLException e){
