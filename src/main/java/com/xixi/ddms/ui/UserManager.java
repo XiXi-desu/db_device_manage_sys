@@ -13,12 +13,12 @@ import java.util.Vector;
  * &#064;date:2022/4/29
  */
 public class UserManager {
-    JFrame frame;
-    JPanel pHead,pBody1,pBody2,pFoot,contentPane;
-    JLabel lTitle;
-    JTable table;
-    JButton jbAdd, jbRemove, jbEdit, jbSearch, jbReset;
-    JTextField TFSearch;
+    JFrame frame;//主界面
+    JPanel pHead,pBody1,pBody2,pFoot,contentPane;//程序分块
+    JLabel lTitle;//标题
+    JTable table;//数据表格
+    JButton jbAdd, jbRemove, jbEdit, jbSearch, jbReset;//各个按钮
+    JTextField TFSearch;//查找框
 
     DefaultTableModel defaultTableModel;
 
