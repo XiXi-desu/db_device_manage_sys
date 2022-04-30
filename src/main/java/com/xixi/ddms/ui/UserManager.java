@@ -8,9 +8,9 @@ import java.awt.*;
 import java.util.Vector;
 
 /**
- * @author: create by zhengyuxi
- * @description: com.xixi.ddms.utils
- * @date:2022/4/29
+ * &#064;author:  create by zhengyuxi
+ * &#064;description:  com.xixi.ddms.utils
+ * &#064;date:2022/4/29
  */
 public class UserManager {
     JFrame frame;
@@ -85,7 +85,7 @@ public class UserManager {
         });
     }
 
-    public void setTable(Vector data, Vector index)
+    public void setTable(Vector<Vector<String>> data, Vector<String> index)
     {
         DefaultTableModel defaultTableModel = new DefaultTableModel();
         defaultTableModel.setDataVector(data, index);
