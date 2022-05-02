@@ -88,14 +88,14 @@ public class UserManager {
         jbSearch.addActionListener(e -> {
             this.data = new UserService().searchUserData(TFSearch.getText());
             defaultTableModel.setDataVector(data,index);
+            table.setModel(defaultTableModel);
         });
         jbReset.addActionListener(e -> {
-            this.data = new UserService().getUserData();
-            defaultTableModel.setDataVector(data,index);
+            updateTable();
             TFSearch.setText("");
         });
         jbAdd.addActionListener(e -> {
-            JDialog addDialog = new AddDialog(frame);
+            JDialog addDialog = new AddDialog(frame, this);
             addDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
             addDialog.setSize(SwingX/3,SwingY/4);
             addDialog.setLocation(screenSize.width/2-SwingX/6,screenSize.height/2-SwingY/8);
@@ -103,15 +103,16 @@ public class UserManager {
         });
         jbRemove.addActionListener(e -> {
             System.out.println(Arrays.toString(table.getSelectedRows()));
-            List<int[]> list = Collections.singletonList(table.getSelectedRows());
-            for (int i = 0; i < list.size(); i++) {
+            int[] list = Collections.singletonList(table.getSelectedRows()).get(0);
+            for (int i = 0; i < list.length; i++) {
+                Vector<String> d = data.get(table.getSelectedRows()[i]);
+                System.out.println(data.get(table.getSelectedRows()[i]));
                 Integer key = new BigInteger(data.get(table.getSelectedRows()[i]).get(0)).intValue();
                 new UserDao().removeUser(key);
             }
 //            Integer key = new BigInteger(data.get(table.getSelectedRow()).get(0)).intValue();
 //            new UserDao().removeUser(key);
-            this.data = new UserService().searchUserData(TFSearch.getText());
-            defaultTableModel.setDataVector(data,index);
+            updateTable();
         });
     }
 
@@ -122,7 +123,7 @@ public class UserManager {
 //        AddDialog(JFrame frame,String title){
 //            super(frame,title);
 //        }
-        AddDialog(JFrame frame){
+        AddDialog(JFrame frame, UserManager userManager){
             super(frame,"添加用戶",true);
             contentPane = new JPanel(new GridLayout(2,1));
             tfName = new JTextField(20);
@@ -137,11 +138,13 @@ public class UserManager {
             contentPane.add(jpFoot);
             this.add(contentPane);
             AddDialog that = this;
+            this.setDefaultCloseOperation(HIDE_ON_CLOSE);
             addButton.addActionListener(e -> {
                 UserDao userDao = new UserDao();
                 userDao.addUser(tfName.getText());
                 that.setVisible(false);
-                updateTable();
+                System.out.println(userManager);
+                userManager.updateTable();
             });
             cancelButton.addActionListener(e -> {
                 that.setVisible(false);
@@ -157,9 +160,9 @@ public class UserManager {
     }
     public void updateTable()
     {
-        data = new UserService().getUserData();
-        defaultTableModel.setDataVector(data, index);
-        this.table.setModel(defaultTableModel);
+        this.data = new UserService().getUserData();
+        this.table.setModel(new DefaultTableModel(this.data,this.index));
+        this.defaultTableModel = new DefaultTableModel(this.data,this.index);
     }
 
     public void refresh(){
