@@ -5,9 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * @author: create by zhengyuxi
- * @description: com.xixi.ddms.modal
- * @date:2022/4/28
+ * &#064;author:  create by zhengyuxi
+ * &#064;description:  com.xixi.ddms.modal
+ * &#064;date:2022/4/28
  */
 @Data
 @NoArgsConstructor
