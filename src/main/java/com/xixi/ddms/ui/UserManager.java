@@ -105,8 +105,6 @@ public class UserManager {
             System.out.println(Arrays.toString(table.getSelectedRows()));
             int[] list = Collections.singletonList(table.getSelectedRows()).get(0);
             for (int i = 0; i < list.length; i++) {
-                Vector<String> d = data.get(table.getSelectedRows()[i]);
-                System.out.println(data.get(table.getSelectedRows()[i]));
                 Integer key = new BigInteger(data.get(table.getSelectedRows()[i]).get(0)).intValue();
                 new UserDao().removeUser(key);
             }
