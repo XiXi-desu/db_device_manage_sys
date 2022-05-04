@@ -166,11 +166,6 @@ public class UserManager {
             }
         };//表格不可修改
     }
-
-    public void refresh(){
-        this.defaultTableModel.setDataVector(new UserService().getUserData(),index);
-    }
-
     public static void main(String[] args) {
         UserManager userManager = new UserManager();
     }
