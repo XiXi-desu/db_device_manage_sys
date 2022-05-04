@@ -58,7 +58,7 @@ public class UserManager {
             public boolean isCellEditable(int rowIndex, int ColIndex) {
                 return false;
             }
-        };
+        };//表格不可修改
         defaultTableModel.setDataVector(data, index);
         table = new JTable(defaultTableModel);
         JScrollPane s = new JScrollPane(table);
@@ -82,7 +82,7 @@ public class UserManager {
         contentPane.add(pFoot);
         frame.setContentPane(contentPane);
         frame.setBounds(screenSize.width/2-SwingX/2,screenSize.height/2-SwingY/2,SwingX,SwingY);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//点击关闭按钮既关闭程序
         frame.setVisible(true);
 
         jbSearch.addActionListener(e -> {
@@ -160,7 +160,11 @@ public class UserManager {
     {
         this.data = new UserService().getUserData();
         this.table.setModel(new DefaultTableModel(this.data,this.index));
-        this.defaultTableModel = new DefaultTableModel(this.data,this.index);
+        this.defaultTableModel = new DefaultTableModel(this.data,this.index){
+            public boolean isCellEditable(int rowIndex, int ColIndex) {
+                return false;
+            }
+        };//表格不可修改
     }
 
     public void refresh(){
