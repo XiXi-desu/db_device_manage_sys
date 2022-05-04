@@ -19,11 +19,11 @@ import java.util.ArrayList;
 public class UserDao {
 
     public ArrayList<UserBean> getUserInfo(){
-        String QUERY_SQL ="select uuid,uname from user where deleted=0 order by uuid ";
-        ArrayList<UserBean> userBeans;
-        Connection connection = DruidConn.getConn();
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
+        String QUERY_SQL ="select uuid,uname from user where deleted=0 order by uuid ";//SQL语句定义
+        ArrayList<UserBean> userBeans;//保存用户信息的用户糖数组
+        Connection connection = DruidConn.getConn();//获取数据库连接
+        PreparedStatement preparedStatement = null;//SQL语句预备
+        ResultSet rs = null;//结果集
         try {
             preparedStatement = connection.prepareStatement(QUERY_SQL);
             rs = preparedStatement.executeQuery();
@@ -31,13 +31,13 @@ public class UserDao {
             while (rs.next()){
                 UserBean userBean = new UserBean(rs.getInt("uuid"),rs.getString("uname"));
                 userBeans.add(userBean);
-            }
+            }//获取用户数据
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         finally {
             DruidConn.closeConn(rs,null,preparedStatement,null,connection);
-        }
+        }//信息获取完毕后关闭连接
         return userBeans;
     }
     public ArrayList<UserBean> getUserInfo(String key){
