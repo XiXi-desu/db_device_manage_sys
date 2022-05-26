@@ -13,9 +13,9 @@ public class DruidConn {
     // 定义MySQL数据库连接信息
     private final static String driverName = "com.mysql.cj.jdbc.Driver";
     //测试数据库
-    private final static String dbURL = "jdbc:mysql://sh-cynosdbmysql-grp-4uexg4s0.sql.tencentcdb.com:25633/device_manage_db?useUnicode=true&characterEncoding=utf-8";
-    private final static String userName = "dmuser";
-    private final static String userPwd = "jy3:de3LJAPMtHG";
+    private final static String dbURL = "jdbc:mysql://115.238.146.133:3306/device_manage_db?useUnicode=true&characterEncoding=utf-8";
+    private final static String userName = "xixi";
+    private final static String userPwd = "xixi2021";
 
     //定义
     private static DruidDataSource ds;
